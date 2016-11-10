@@ -63,10 +63,6 @@ class al_kcare (
 ) inherits al_kcare::params {
 
 #
-#
-#
-
-#
 # We can only run in specifiy virtual environments.
 #
   case ($::virtual) {
@@ -78,6 +74,11 @@ class al_kcare (
     'kvm': {
       # KVM run their own kernels, too.
       $real_enabled = $enabled
+    }
+
+    'openvzhn': {
+      # Virtuozzo Host 7, not supported yet.
+      $real_enabled = false
     }
 
     'openvzve': {
