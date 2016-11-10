@@ -81,6 +81,11 @@ class al_kcare (
       $real_enabled = false
     }
 
+    'openvz': {
+      # VZ Container are dependent on their Host Kernel, can't act.
+      $real_enabled = false
+    }
+
     'openvzve': {
       # VZ Container are dependent on their Host Kernel, can't act.
       $real_enabled = false
