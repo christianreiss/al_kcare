@@ -1,0 +1,34 @@
+#! /bin/bash
+kbin="<%= scope.lookupvar('::al_kcare::kcare_bin')%>"
+
+LIC=$(kcarectl --license-info)
+
+function warn {
+    echo "Warning: $*"
+    exit 1
+}
+
+function error {
+    echo "Error: $*"
+    exit 2
+}
+
+if [ ! -e ${kbin} ] ; then
+  error "Package is not installed!"
+fi
+
+if [ "`echo ${LIC} | grep 'trial license' | wc -l`" == "1" ]  ; then
+    warn "Trial license found."
+fi
+
+if [ "`echo ${LIC} | grep 'Key based valid license found' | wc -l`" == "0" ]  ; then
+    warn "License found, but invalid."
+fi
+
+if [ "`kcarectl -i | grep 'kpatch-state: patch is applied' | wc -l`" != "1" ] ; then
+    error "Update is required!"
+fi
+
+echo "System patched, license valid."
+exit 0
+
