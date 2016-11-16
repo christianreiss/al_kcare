@@ -8,7 +8,8 @@ class al_kcare::register {
 
       exec { 'register-kernelcare':
         user    => 'root',
-        command => "${::al_kcare::kcare_bin} --register ${::al_kcare::license} && echo 'REGDONE' > ${::al_kcare::register_file}",
+        # command => "${::al_kcare::kcare_bin} --register ${::al_kcare::license} && echo 'REGDONE' > ${::al_kcare::register_file}",
+        command => "${::al_kcare::kcare_bin} --register ${::al_kcare::license}",
         creates => $::al_kcare::register_file,
         require => Class['al_kcare::install']
       }
@@ -24,6 +25,15 @@ class al_kcare::register {
       before  => Class['al_kcare::install'],
     }
 
+  }
+
+  #
+  # Temporary Cleanup
+  #
+  if ($::osfamily == 'RedHat') {
+    file { '/etc/sysconfig/kcare/registered':
+      ensure => absent,
+    }
   }
 
 }

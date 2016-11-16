@@ -11,7 +11,7 @@ class al_kcare::params {
     }
 
     'CloudLinux': {
-      $register_file   = '/etc/sysconfig/kcare/registered'
+      $register_file   = '/etc/sysconfig/kcare/systemid'
       $nrpe_pluginpath = '/usr/lib64/nagios/plugins'
       case ($::operatingsystemmajrelease) {
         '5': {
@@ -33,7 +33,7 @@ class al_kcare::params {
     }
 
     'RedHat': {
-      $register_file   = '/etc/sysconfig/kcare/registered'
+      $register_file   = '/etc/sysconfig/kcare/systemid'
       $nrpe_pluginpath = '/usr/lib64/nagios/plugins'
       case ($::operatingsystemmajrelease) {
         '5': {
@@ -55,7 +55,7 @@ class al_kcare::params {
     }
 
     'CentOS': {
-      $register_file   = '/etc/sysconfig/kcare/registered'
+      $register_file   = '/etc/sysconfig/kcare/systemid'
       $nrpe_pluginpath = '/usr/lib64/nagios/plugins'
       case ($::operatingsystemmajrelease) {
         '5': {
