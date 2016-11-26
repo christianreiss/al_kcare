@@ -42,7 +42,7 @@ if [ "`echo ${LIC} | grep 'Key based valid license found' | wc -l`" == "0" ]  ; 
 fi
 
 # Check current KernelCare state
-state=$(`kcarectl -i)
+state=$(kcarectl -i)
 
 if [ "$(echo ${state} | grep 'Unknown kernel' | wc -l)" != "1" ] ; then
     warn "Unknown Kernel-- cant patch."
