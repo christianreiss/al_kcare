@@ -44,7 +44,7 @@ fi
 # Check current KernelCare state
 state=$(kcarectl -i)
 
-if [ "$(echo ${state} | grep 'Unknown kernel' | wc -l)" != "1" ] ; then
+if [ "$(echo ${state} | grep 'Unknown kernel' | wc -l)" == "1" ] ; then
     warn "Unknown Kernel-- cant patch."
 fi
 
