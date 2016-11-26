@@ -1,22 +1,38 @@
 #! /bin/bash
+
+# This file is managed by
+#  ____  _   _ ____  ____  _____ _____
+# |  _ \| | | |  _ \|  _ \| ____|_   _|
+# | |_) | | | | |_) | |_) |  _|   | |
+# |  __/| |_| |  __/|  __/| |___  | |
+# |_|    \___/|_|   |_|   |_____| |_|
+#
+#      All changes will be overwritten
+
+# Path to KernelCare 
 kbin="<%= scope.lookupvar('::al_kcare::kcare_bin')%>"
 
+# Load license information
 LIC=$(kcarectl --license-info)
 
+# Warnings
 function warn {
     echo "Warning: $*"
     exit 1
 }
 
+# Errors
 function error {
     echo "Error: $*"
     exit 2
 }
 
+# Is KernelCare installed?
 if [ ! -e ${kbin} ] ; then
   error "Package is not installed!"
 fi
 
+# Check for Licence
 if [ "`echo ${LIC} | grep 'trial license' | wc -l`" == "1" ]  ; then
     warn "Trial license found."
 fi
@@ -25,10 +41,18 @@ if [ "`echo ${LIC} | grep 'Key based valid license found' | wc -l`" == "0" ]  ; 
     warn "License found, but invalid."
 fi
 
-if [ "`kcarectl -i | grep 'kpatch-state: patch is applied' | wc -l`" != "1" ] ; then
+# Check current KernelCare state
+state=$(`kcarectl -i)
+
+if [ "$(echo ${state} | grep 'Unknown kernel' | wc -l)" != "1" ] ; then
+    warn "Unknown Kernel-- cant patch."
+fi
+
+if [ "$(echo ${state} | grep 'kpatch-state: patch is applied' | wc -l)" != "1" ] ; then
     error "Update is required!"
 fi
 
+# If we are down here, all is well.
 echo "System patched, license valid."
 exit 0
 
