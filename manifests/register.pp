@@ -13,6 +13,19 @@ class al_kcare::register {
         creates => $::al_kcare::register_file,
         require => Class['al_kcare::install']
       }
+
+      # Install our own cron.
+      cron { 'kcare-update':
+        ensure  => present,
+        command => '/usr/bin/kcarectl --auto-update 2>/dev/null 1>/dev/null >/dev/null',
+        hour    => '*/4',
+        minute  => fqdn_rand(59, 'kcare-update'),
+      }
+
+      # Remove the stock-cron.
+      file { '/etc/cron.d/kcare-cron':
+        ensure => absent,
+      }
     }
 
   } else {
@@ -25,6 +38,10 @@ class al_kcare::register {
       before  => Class['al_kcare::install'],
     }
 
+    # Remove our cron.
+    cron { 'kcare-update':
+      ensure => absent,
+    }
   }
 
   #
