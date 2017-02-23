@@ -14,6 +14,7 @@ class al_kcare::repo {
       yumrepo { 'kernelcare':
         ensure    => present,
         name      => 'kernelcare',
+        descr     => 'kernelcare',
         assumeyes => true,
         baseurl   => 'http://repo.cloudlinux.com/kernelcare/6/$basearch',
         gpgkey    => 'http://repo.cloudlinux.com/kernelcare-debian/6/conf/kcaredsa_pub.gpg',
